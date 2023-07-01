@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for beer in beers %}
+<h1>{{beer.title}} - beer title</h1>
+<h3>{{beer.type}} - beer type</h3>
+<p>{{beer.abv}} - beer abv</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% comment %} for head title tags and helping us with SEO {% endcomment %}
+{% block title %}Brewery{% endblock  %}
+
+{% block content %}
+
+<h1 class="title pt-5">Local Breweries</h1>
+<div class="gallery">
+  {% for brewery in breweries %}
+  <a href="">
+    <div class="card">
+      <div class="card-image">
+        <figure class="image is-square">
+          <img src="{{brewery.image}}" alt="{{brewery.name}}" />
+        </figure>
+      </div>
+      <div class="card-header">
+        <p class="card-header-title">{{brewery.name}}</p>
+      </div>
+    </div>
+  </a>
+	{% empty %}
+  <article class="message">
+    <div class="message-header">
+      <p>No Breweries Available</p>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}
