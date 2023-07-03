@@ -14,7 +14,84 @@
     {% endif %}
     <h1 class="title">{{brewery.name}}</h1>
 </div>
+
 <div class="detail__container">
+    <div class="detail__beers mb-5">
+        <h3 class="title is-3">Beers</h3>
+
+        <form class="mb-5" action="{% url 'beer_create' brewery.pk %}" method="post">
+            {% csrf_token %}
+            <div class="field has-addons">
+                <div class="control">
+                    <input
+                        class="input"
+                        type="text"
+                        name="title"
+                        placeholder="Title"
+                        required
+                    />
+                </div>
+                <div class="control">
+                    <input
+                        class="input"
+                        type="text"
+                        name="type"
+                        placeholder="Type"
+                        required
+                    />
+                </div>
+                <div class="control">
+                    <input
+                        class="input"
+                        type="number"
+                        name="abv"
+                        placeholder="ABV %"
+                        min="1"
+                        required
+                    />
+                </div>
+                <div class="control">
+                    <input class="button is-primary" type="submit" value="Add Beer" />
+                </div>
+            </div>
+        </form>
+    
+        {% for beer in brewery.beers.all %}
+        <div class="beer">
+          <span>{{forloop.counter}}</span>
+          <span><b>{{beer.title}}</b></span>
+          <span>{{beer.type}}</span>
+          <span>{{beer.abv}}%</span>
+          <span>
+            <div class="dropdown">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Add to Shopping Cart</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        {% for shoppingcartlist in shoppingcartlists %}
+                            <a href="{% url 'shoppingcartlist_beer_assoc' shoppingcartlist.pk beer.pk %}?assoc=add"
+                               class="dropdown-item">{{ shoppingcartlist.title }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </span>
+        </div>
+            {% empty %}
+        <article class="message">
+          <div class="message-header">
+            <p>No Beers Available</p>
+          </div>
+        </article>
+    
+        {% endfor %}
+    </div>
     <div class="buttons">
         <a href="{% url 'brewery_update' brewery.pk %}" class="button is-info">Update
             <span class="icon">
@@ -31,6 +108,7 @@
         <h4 class="title is-4">About</h4>
         <p>{{brewery.bio}}</p>
     </div>
+    
 </div>
 
 {% endblock %}

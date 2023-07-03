@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from .models import Brewery
-from django.views.generic.base import TemplateView
+from django.shortcuts import redirect
+from .models import Brewery, Beer, ShoppingCartlist
+from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
 
@@ -10,6 +10,12 @@ from django.views.generic import DetailView
 # Here we will be creating a class called Home and extending it from the View class
 class Home(TemplateView):
     template_name = "home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["shoppingcartlists"] = ShoppingCartlist.objects.all()
+        return context
+
     
 
 class About(TemplateView):
@@ -32,6 +38,12 @@ class BreweryList(TemplateView):
 class BreweryDetail(DetailView):
     model = Brewery
     template_name = "brewery_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["shoppingcartlists"] = ShoppingCartlist.objects.all()
+        return context
+
 
 class BreweryCreate(CreateView):
     model = Brewery
@@ -58,13 +70,25 @@ class BeerList(TemplateView):
         context["beers"] = beers # this is where we add the key into our context object for the view to use
         return context
 
-class Beer:
-    def __init__(self, title, type, abv):
-        self.title = title
-        self.type = type
-        self.abv = abv
-
-beers =[
-    Beer('AMBIO','Sour DIPA w/ wheat & oat, milk sugar, raspberry, lychee, toasted coconut & rose petals','8%'),
-    Beer('AMBIENT FIZZ','Spritzy Spontaneous Sour','4%')
-]
+class BeerCreate(View):
+    def post(self, request, pk):
+        title = request.POST.get("title")
+        type = request.POST.get("type")
+        abv = request.POST.get("abv")
+        brewery = Brewery.objects.get(pk=pk)
+        Beer.objects.create(title=title,type=type ,abv=abv, brewery=brewery)
+        return redirect('brewery_detail', pk=pk)
+    
+class ShoppingCartlistBeerAssoc(View):
+    def get(self, request, pk, beer_pk):
+        # get the query param from the url
+        assoc = request.GET.get("assoc")
+        if assoc == "remove":
+            # get the playlist by the id and
+            # remove from the join table the given song_id
+            ShoppingCartlist.objects.get(pk=pk).beers.remove(beer_pk)
+        if assoc == "add":
+            # get the ShoppingCartlist by the id and
+            # add to the join table the given song_id
+            ShoppingCartlist.objects.get(pk=pk).beers.add(beer_pk)
+        return redirect('home')

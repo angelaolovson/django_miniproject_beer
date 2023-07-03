@@ -1,13 +1,13 @@
 body {
-    background-color: #121212;
-    color: #ffffff;
+    background-color: white;
+    color: black;
     min-height: 100vh;
 }
   
 h1,
 h2,
 h3 {
-    color: #ffffff;
+    color: black;
 }
   
 .container {
@@ -16,7 +16,7 @@ h3 {
 }
   
 .title {
-    color: #ffffff;
+    color: black;
 }
   
 .gallery {
@@ -75,4 +75,25 @@ img {
   
 .detail__container {
     margin-top: 500px;
+}
+
+
+.detail__beers {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.beer {
+    width: 100%;
+    padding: 10px;
+    display: grid;
+    /*  New Template Columns  */
+    grid-template-columns: 0.1fr 3fr 0.5fr 0.3fr;
+    border-radius: 5px;
+}
+
+.beer:hover {
+    background-color: rgb(255, 203, 152);
+    cursor: pointer;
 }

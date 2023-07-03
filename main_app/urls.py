@@ -11,4 +11,6 @@ urlpatterns = [
     path('breweries/<int:pk>/', views.BreweryDetail.as_view(), name="brewery_detail"),
     path('breweries/<int:pk>/update',views.BreweryUpdate.as_view(), name="brewery_update"),
     path('breweries/<int:pk>/delete',views.BreweryDelete.as_view(), name="brewery_delete"),
+    path('breweries/<int:pk>/beers/new',views.BeerCreate.as_view(), name="beer_create"),
+    path('shoppingcartlists/<int:pk>/beers/<int:beer_pk>/', views.ShoppingCartlistBeerAssoc.as_view(), name="shoppingcartlist_beer_assoc"),
 ]

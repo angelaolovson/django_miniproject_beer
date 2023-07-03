@@ -15,3 +15,24 @@ class Brewery(models.Model):
 
     class Meta:
         ordering = ['name']
+
+
+class Beer(models.Model):
+
+    title = models.CharField(max_length=150)
+    type = models.CharField(max_length=150)
+    abv = models.IntegerField(default=0)
+    brewery = models.ForeignKey(Brewery, on_delete=models.CASCADE, related_name="beers")
+
+    def __str__(self):
+        return self.title
+    
+
+class ShoppingCartlist(models.Model):
+
+    title = models.CharField(max_length=150)
+    # this is going to create the many to many relationship and join table
+    beers = models.ManyToManyField(Beer)
+
+    def __str__(self):
+        return self.title
