@@ -1,0 +1,36 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="detail__img">
+    <img src="{{brewery.img}}" alt="{{brewery.name}}" />
+</div>
+<div class="detail__name">
+    {% if brewery.verified_brewery %}
+    <div class="icon-text">
+        <span class="icon has-text-info">
+            <i class="fas fa-check-circle"></i>
+        </span>
+        <span>Verified</span>
+    </div>
+    {% endif %}
+    <h1 class="title">{{brewery.name}}</h1>
+</div>
+<div class="detail__container">
+    <div class="buttons">
+        <a href="{% url 'brewery_update' brewery.pk %}" class="button is-info">Update
+            <span class="icon">
+                <i class="fas fa-edit"></i>
+            </span>
+        </a>
+        <a href="{% url 'brewery_delete' brewery.pk %}" class="button is-danger">Delete
+            <span class="icon">
+                <i class="fas fa-trash-alt"></i>
+            </span>
+        </a>
+    </div>
+    <div class="detail__about">
+        <h4 class="title is-4">About</h4>
+        <p>{{brewery.bio}}</p>
+    </div>
+</div>
+
+{% endblock %}

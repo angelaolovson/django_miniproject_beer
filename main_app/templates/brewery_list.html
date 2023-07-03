@@ -23,7 +23,7 @@
 
 <div class="gallery">
   {% for brewery in breweries %}
-  <a href="">
+  <a href="{% url 'brewery_detail' brewery.pk %}">
     <div class="card">
       <div class="card-image">
         <figure class="image is-square">

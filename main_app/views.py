@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic.base import TemplateView
 from .models import Brewery
-from django.views.generic.edit import CreateView
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView
 
 
 # Create your views here.
@@ -28,12 +29,26 @@ class BreweryList(TemplateView):
             context["header"] = "All Breweries"
         return context
 
+class BreweryDetail(DetailView):
+    model = Brewery
+    template_name = "brewery_detail.html"
+
 class BreweryCreate(CreateView):
     model = Brewery
     fields = ['name', 'img','location', 'bio', 'verified_brewery']
     template_name = "brewery_create.html"
     success_url = "/breweries/"
 
+class BreweryUpdate(UpdateView):
+    model = Brewery
+    fields = ['name', 'img', 'location', 'bio', 'verified_brewery']
+    template_name = "brewery_update.html"
+    success_url = "/breweries/"
+
+class BreweryDelete(DeleteView):
+    model = Brewery
+    template_name = "brewery_delete_confirmation.html"
+    success_url = "/breweries/"
 
 class BeerList(TemplateView):
     template_name = "beer_list.html"
