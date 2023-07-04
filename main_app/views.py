@@ -1,8 +1,9 @@
 from django.shortcuts import redirect
 from .models import Brewery, Beer, ShoppingCartlist
-from django.views.generic.base import TemplateView, View
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
+from django.views import View
 
 
 # Create your views here.
@@ -67,7 +68,7 @@ class BeerList(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["beers"] = beers # this is where we add the key into our context object for the view to use
+        context["beers"] = Beer.objects.all() # this is where we add the key into our context object for the view to use
         return context
 
 class BeerCreate(View):
