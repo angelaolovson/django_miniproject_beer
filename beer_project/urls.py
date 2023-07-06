@@ -22,4 +22,4 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main_app.urls')), # <- here is the new line to include the urls of our app
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
